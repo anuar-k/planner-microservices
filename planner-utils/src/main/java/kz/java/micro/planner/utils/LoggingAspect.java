@@ -1,4 +1,4 @@
-package kz.java.micro.planner.todo.aop;
+package kz.java.micro.planner.utils;
 
 import lombok.extern.java.Log;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -13,7 +13,7 @@ import org.springframework.util.StopWatch;
 @Log
 public class LoggingAspect {
 
-    @Around("execution(* kz.java.micro.planner.todo..*(..)))")
+    @Around("execution(* kz.java.micro.planner.todo.controller..*(..)))")
     public Object profileControllerMethods(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
 
         MethodSignature methodSignature = (MethodSignature) proceedingJoinPoint.getSignature();

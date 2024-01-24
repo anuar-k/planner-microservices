@@ -3,6 +3,7 @@ package kz.java.micro.planner.todo.controller;
 import kz.java.micro.planner.entity.Task;
 import kz.java.micro.planner.todo.search.TaskSearchValues;
 import kz.java.micro.planner.todo.service.TaskService;
+import kz.java.micro.planner.utils.rest.resttemplate.UserRestBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -26,6 +27,7 @@ public class TaskController {
     private final String ID_COLUMN = "id";
 
     private final TaskService taskService;
+    private final UserRestBuilder userRestBuilder;
 
     @PostMapping("/all")
     public ResponseEntity<List<Task>> getAll(@RequestBody Long userId) {
@@ -57,7 +59,10 @@ public class TaskController {
             return new ResponseEntity("missed param: title must be not null", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(taskService.add(task));
+        if (userRestBuilder.userExists(task.getUserId())) {
+            return ResponseEntity.ok(taskService.add(task));
+        }
+        return new ResponseEntity("user with id: " + task.getUserId() + " not found", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PutMapping("/update")

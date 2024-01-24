@@ -26,7 +26,6 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	//devtools
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	//postgresql driver
@@ -41,6 +40,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	//entity
 	implementation 'kz.java.micro.planner:planner-entity'
+	implementation 'kz.java.micro.planner:planner-utils'
 }
 
 dependencyManagement {

@@ -3,6 +3,7 @@ package kz.java.micro.planner.todo.controller;
 import kz.java.micro.planner.entity.Category;
 import kz.java.micro.planner.todo.search.CategorySearchValues;
 import kz.java.micro.planner.todo.service.CategoryService;
+import kz.java.micro.planner.utils.rest.webclient.UserWebClientBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,8 @@ import java.util.NoSuchElementException;
 public class CategoryController {
 
     private final CategoryService categoryService;
+//    private final UserRestBuilder userRestBuilder;
+    private final UserWebClientBuilder userWebClientBuilder;
 
     @PostMapping("/all")
     public List<Category> getById(@RequestBody Long userId) {
@@ -49,7 +52,11 @@ public class CategoryController {
             return new ResponseEntity("missed param: title must be not null", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        return ResponseEntity.ok(categoryService.add(category));
+        if (userWebClientBuilder.userExists(category.getUserId())) {
+            return ResponseEntity.ok(categoryService.add(category));
+        }
+
+        return new ResponseEntity("user with id: " + category.getUserId() + " not found", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PutMapping("/update")

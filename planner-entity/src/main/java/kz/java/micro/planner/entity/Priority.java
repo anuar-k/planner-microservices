@@ -1,9 +1,6 @@
 package kz.java.micro.planner.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
@@ -22,6 +19,7 @@ import java.util.Objects;
 @Getter
 @Cacheable
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+@Builder
 public class Priority {
 
     // указываем, что поле заполняется в БД

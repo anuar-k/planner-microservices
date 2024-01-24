@@ -3,6 +3,7 @@ package kz.java.micro.planner.todo.controller;
 import kz.java.micro.planner.entity.Priority;
 import kz.java.micro.planner.todo.search.PrioritySearchValues;
 import kz.java.micro.planner.todo.service.PriorityService;
+import kz.java.micro.planner.utils.rest.resttemplate.UserRestBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,7 @@ import java.util.NoSuchElementException;
 public class PriorityController {
 
     private final PriorityService priorityService;
+    private final UserRestBuilder userRestBuilder;
 
     @PostMapping("/all")
     public List<Priority> getById(@RequestBody Long userId) {
@@ -52,7 +54,11 @@ public class PriorityController {
         if (priority.getColor() == null || priority.getColor().trim().length() == 0) {
             return new ResponseEntity("missed param: color must be not null", HttpStatus.NOT_ACCEPTABLE);
         }
-        return ResponseEntity.ok(priorityService.add(priority));
+
+        if (userRestBuilder.userExists(priority.getUserId())) {
+            return ResponseEntity.ok(priorityService.add(priority));
+        }
+        return new ResponseEntity("user with id: " + priority.getUserId() + " not found", HttpStatus.NOT_ACCEPTABLE);
     }
 
     @PutMapping("/update")
