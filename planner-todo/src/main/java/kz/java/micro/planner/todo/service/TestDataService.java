@@ -1,0 +1,84 @@
+package kz.java.micro.planner.todo.service;
+
+import kz.java.micro.planner.entity.Category;
+import kz.java.micro.planner.entity.Priority;
+import kz.java.micro.planner.entity.Task;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Calendar;
+import java.util.Date;
+
+@Service
+@AllArgsConstructor
+public class TestDataService {
+
+    private final TaskService taskService;
+    private final PriorityService priorityService;
+    private final CategoryService categoryService;
+
+    public void initTestData(Long userId) {
+        Priority priority1 = Priority.builder()
+                .title("Важный")
+                .color("#fff")
+                .userId(userId)
+                .build();
+
+        Priority priority2 = Priority.builder()
+                .title("Неважный")
+                .color("#ffe")
+                .userId(userId)
+                .build();
+
+        priorityService.add(priority1);
+        priorityService.add(priority2);
+
+        Category category1 = Category.builder()
+                .title("Работа")
+                .userId(userId)
+                .build();
+
+        Category category2 = Category.builder()
+                .title("Семья")
+                .userId(userId)
+                .build();
+
+        categoryService.add(category1);
+        categoryService.add(category2);
+
+        //завтра
+        Date tomorrow = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(tomorrow);
+        c.add(Calendar.DATE, 1);
+        tomorrow = c.getTime();
+
+        //неделя
+        Date oneWeek = new Date();
+        Calendar c2 = Calendar.getInstance();
+        c2.setTime(oneWeek);
+        c.add(Calendar.DATE, 7);
+        oneWeek = c.getTime();
+
+        Task task1 = Task.builder()
+                .title("Покушать")
+                .category(category1)
+                .priority(priority1)
+                .completed(true)
+                .taskDate(tomorrow)
+                .userId(userId)
+                .build();
+
+        Task task2 = Task.builder()
+                .title("Поспать")
+                .category(category2)
+                .priority(priority2)
+                .completed(false)
+                .taskDate(oneWeek)
+                .userId(userId)
+                .build();
+
+        taskService.add(task1);
+        taskService.add(task2);
+    }
+}

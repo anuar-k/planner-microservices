@@ -1,6 +1,7 @@
 package kz.java.micro.planner.users.controller;
 
 import kz.java.micro.planner.entity.User;
+import kz.java.micro.planner.users.mq.MessageProducer;
 import kz.java.micro.planner.users.search.UserSearchValues;
 import kz.java.micro.planner.users.service.UserService;
 import kz.java.micro.planner.utils.rest.webclient.UserWebClientBuilder;
@@ -26,6 +27,8 @@ public class UserController {
     private final UserService userService;
 
     private final UserWebClientBuilder webClientBuilder;
+
+    private final MessageProducer messageProducer;
 
     @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user) {
@@ -54,7 +57,8 @@ public class UserController {
         }
 
         if (user != null) {
-            webClientBuilder.initData(user.getId()).subscribe(result -> System.out.println("user populated: " + result));
+//            webClientBuilder.initData(user.getId()).subscribe(result -> System.out.println("user populated: " + result));
+            messageProducer.newUserAction(user.getId());
         }
 
         return ResponseEntity.ok(user);
@@ -114,7 +118,7 @@ public class UserController {
         } catch (NoSuchElementException e) {
             e.printStackTrace();
         }
-        return new ResponseEntity("user by id: " + userId + " not found", HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity("user by id: " + userId + " not found", HttpStatus.NO_CONTENT);
     }
 
     @PostMapping("/email")

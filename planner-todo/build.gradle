@@ -37,10 +37,15 @@ dependencies {
 	//cloud
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
+	implementation 'org.springframework.cloud:spring-cloud-starter-feign:+'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	//entity
 	implementation 'kz.java.micro.planner:planner-entity'
 	implementation 'kz.java.micro.planner:planner-utils'
+	//check remote service status
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:+'
+	//rabbit mq
+	implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
 }
 
 dependencyManagement {

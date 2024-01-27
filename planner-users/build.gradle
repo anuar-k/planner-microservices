@@ -39,6 +39,8 @@ dependencies {
     //entity
     implementation 'kz.java.micro.planner:planner-entity'
     implementation 'kz.java.micro.planner:planner-utils'
+    //mq
+    implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
 }
 
 dependencyManagement {

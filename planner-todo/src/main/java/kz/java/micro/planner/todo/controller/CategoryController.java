@@ -1,8 +1,11 @@
 package kz.java.micro.planner.todo.controller;
 
 import kz.java.micro.planner.entity.Category;
+import kz.java.micro.planner.entity.User;
+import kz.java.micro.planner.todo.feign.UserFeignClient;
 import kz.java.micro.planner.todo.search.CategorySearchValues;
 import kz.java.micro.planner.todo.service.CategoryService;
+import kz.java.micro.planner.utils.rest.resttemplate.UserRestBuilder;
 import kz.java.micro.planner.utils.rest.webclient.UserWebClientBuilder;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,8 +22,9 @@ import java.util.NoSuchElementException;
 public class CategoryController {
 
     private final CategoryService categoryService;
-//    private final UserRestBuilder userRestBuilder;
+    private final UserRestBuilder userRestBuilder;
     private final UserWebClientBuilder userWebClientBuilder;
+    private final UserFeignClient userFeignClient;
 
     @PostMapping("/all")
     public List<Category> getById(@RequestBody Long userId) {
@@ -52,7 +56,21 @@ public class CategoryController {
             return new ResponseEntity("missed param: title must be not null", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        if (userWebClientBuilder.userExists(category.getUserId())) {
+//        if (userRestBuilder.userExists(category.getUserId())) {
+//            return ResponseEntity.ok(categoryService.add(category));
+//        }
+
+//        if (userWebClientBuilder.userExists(category.getUserId())) {
+//            return ResponseEntity.ok(categoryService.add(category));
+//        }
+
+        ResponseEntity<User> result = userFeignClient.findUserById(category.getUserId());
+
+        if (result == null) {
+            return new ResponseEntity("user service is disabled", HttpStatus.NOT_FOUND);
+        }
+
+        if (result.getBody() != null) {
             return ResponseEntity.ok(categoryService.add(category));
         }
 
