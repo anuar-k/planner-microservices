@@ -1,7 +1,7 @@
 package kz.java.micro.planner.users.controller;
 
 import kz.java.micro.planner.entity.User;
-import kz.java.micro.planner.users.mq.MessageProducer;
+import kz.java.micro.planner.users.mq.func.MessageFuncActions;
 import kz.java.micro.planner.users.search.UserSearchValues;
 import kz.java.micro.planner.users.service.UserService;
 import kz.java.micro.planner.utils.rest.webclient.UserWebClientBuilder;
@@ -28,7 +28,9 @@ public class UserController {
 
     private final UserWebClientBuilder webClientBuilder;
 
-    private final MessageProducer messageProducer;
+//    private final MessageProducer messageProducer;
+
+    private final MessageFuncActions messageFuncActions;
 
     @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user) {
@@ -58,7 +60,8 @@ public class UserController {
 
         if (user != null) {
 //            webClientBuilder.initData(user.getId()).subscribe(result -> System.out.println("user populated: " + result));
-            messageProducer.newUserAction(user.getId());
+//            messageProducer.newUserAction(user.getId());
+            messageFuncActions.setNewUserMessage(user.getId());
         }
 
         return ResponseEntity.ok(user);
