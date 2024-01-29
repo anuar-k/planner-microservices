@@ -4,6 +4,7 @@ import kz.java.micro.planner.entity.Category;
 import kz.java.micro.planner.entity.Priority;
 import kz.java.micro.planner.entity.Task;
 import lombok.AllArgsConstructor;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 import java.util.Calendar;
@@ -16,6 +17,11 @@ public class TestDataService {
     private final TaskService taskService;
     private final PriorityService priorityService;
     private final CategoryService categoryService;
+
+    @KafkaListener(topics = "test-topic")
+    public void listenKafka(Long userId){
+        initTestData(userId);
+    }
 
     public void initTestData(Long userId) {
         Priority priority1 = Priority.builder()

@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.NoSuchElementException;
@@ -23,6 +24,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
     private final String ID_COLUMN = "id";
+    private final static String TOPIC_NAME = "test-topic";
 
     private final UserService userService;
 
@@ -31,6 +33,8 @@ public class UserController {
 //    private final MessageProducer messageProducer;
 
     private final MessageFuncActions messageFuncActions;
+
+    private final KafkaTemplate<String, Long> kafkaTemplate;
 
     @PostMapping("/add")
     public ResponseEntity<User> add(@RequestBody User user) {
@@ -61,7 +65,8 @@ public class UserController {
         if (user != null) {
 //            webClientBuilder.initData(user.getId()).subscribe(result -> System.out.println("user populated: " + result));
 //            messageProducer.newUserAction(user.getId());
-            messageFuncActions.setNewUserMessage(user.getId());
+//            messageFuncActions.setNewUserMessage(user.getId());
+            kafkaTemplate.send(TOPIC_NAME, user.getId());
         }
 
         return ResponseEntity.ok(user);
