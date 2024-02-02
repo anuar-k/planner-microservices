@@ -1,7 +1,6 @@
 package kz.java.micro.planner.todo.controller;
 
 import kz.java.micro.planner.entity.Category;
-import kz.java.micro.planner.entity.User;
 import kz.java.micro.planner.todo.feign.UserFeignClient;
 import kz.java.micro.planner.todo.search.CategorySearchValues;
 import kz.java.micro.planner.todo.service.CategoryService;
@@ -11,6 +10,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -46,7 +47,8 @@ public class CategoryController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Category> add(@RequestBody Category category) {
+    public ResponseEntity<Category> add(@RequestBody Category category, @AuthenticationPrincipal Jwt jwt) {
+        category.setUserId(jwt.getSubject());
 
         if (category.getId() != null && category.getId() != 0) {
             return new ResponseEntity("id must be null", HttpStatus.NOT_ACCEPTABLE);
@@ -64,13 +66,13 @@ public class CategoryController {
 //            return ResponseEntity.ok(categoryService.add(category));
 //        }
 
-        ResponseEntity<User> result = userFeignClient.findUserById(category.getUserId());
+//        ResponseEntity<User> result = userFeignClient.findUserById(category.getUserId());
+//
+//        if (result == null) {
+//            return new ResponseEntity("user service is disabled", HttpStatus.NOT_FOUND);
+//        }
 
-        if (result == null) {
-            return new ResponseEntity("user service is disabled", HttpStatus.NOT_FOUND);
-        }
-
-        if (result.getBody() != null) {
+        if (!category.getUserId().isBlank()) {
             return ResponseEntity.ok(categoryService.add(category));
         }
 
@@ -80,7 +82,7 @@ public class CategoryController {
     @PutMapping("/update")
     public ResponseEntity update(@RequestBody Category category) {
         if (category.getId() == null || category.getId() == 0) {
-            return new ResponseEntity("id must be null", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("category id must be null", HttpStatus.NOT_ACCEPTABLE);
         }
 
         if (category.getTitle() == null || category.getTitle().trim().length() == 0) {

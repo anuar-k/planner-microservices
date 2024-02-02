@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "planner-users", fallback = UserFeignClientFallback.class)
 public interface UserFeignClient {
     @PostMapping("/user/id")
-    ResponseEntity<User> findUserById(@RequestBody Long id);
+    ResponseEntity<User> findUserById(@RequestBody String id);
 }
 
 @Component
 class UserFeignClientFallback implements UserFeignClient{
     @Override
-    public ResponseEntity<User> findUserById(Long id) {
+    public ResponseEntity<User> findUserById(String id) {
         return null;
     }
 }

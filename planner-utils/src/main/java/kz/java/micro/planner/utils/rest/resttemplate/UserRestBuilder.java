@@ -13,7 +13,7 @@ public class UserRestBuilder {
 
     private final String URL = "http://localhost:8765/planner-users/user";
 
-    public boolean userExists(Long userId) {
+    public boolean userExists(String userId) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity request = new HttpEntity(userId);
 

@@ -19,11 +19,11 @@ public class TestDataService {
     private final CategoryService categoryService;
 
     @KafkaListener(topics = "test-topic")
-    public void listenKafka(Long userId){
+    public void listenKafka(String userId){
         initTestData(userId);
     }
 
-    public void initTestData(Long userId) {
+    public void initTestData(String userId) {
         Priority priority1 = Priority.builder()
                 .title("Важный")
                 .color("#fff")

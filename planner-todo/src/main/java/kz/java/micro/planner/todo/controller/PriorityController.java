@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -41,10 +43,11 @@ public class PriorityController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Priority> add(@RequestBody Priority priority) {
+    public ResponseEntity<Priority> add(@RequestBody Priority priority, @AuthenticationPrincipal Jwt jwt) {
+        priority.setUserId(jwt.getSubject());
 
         if (priority.getId() != null && priority.getId() != 0) {
-            return new ResponseEntity("id must be null", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("priority id must be null", HttpStatus.NOT_ACCEPTABLE);
         }
 
         if (priority.getTitle() == null || priority.getTitle().trim().length() == 0) {
@@ -55,9 +58,13 @@ public class PriorityController {
             return new ResponseEntity("missed param: color must be not null", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        if (userRestBuilder.userExists(priority.getUserId())) {
+//        if (userRestBuilder.userExists(priority.getUserId())) {
+//            return ResponseEntity.ok(priorityService.add(priority));
+//        }
+        if (!priority.getUserId().isBlank()){
             return ResponseEntity.ok(priorityService.add(priority));
         }
+
         return new ResponseEntity("user with id: " + priority.getUserId() + " not found", HttpStatus.NOT_ACCEPTABLE);
     }
 

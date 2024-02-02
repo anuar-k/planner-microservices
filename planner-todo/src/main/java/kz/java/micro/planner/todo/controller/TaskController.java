@@ -52,14 +52,17 @@ public class TaskController {
     public ResponseEntity<Task> add(@RequestBody Task task) {
 
         if (task.getId() != null && task.getId() != 0) {
-            return new ResponseEntity("id must be null", HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity("task id must be null", HttpStatus.NOT_ACCEPTABLE);
         }
 
         if (task.getTitle() == null || task.getTitle().trim().length() == 0) {
             return new ResponseEntity("missed param: title must be not null", HttpStatus.NOT_ACCEPTABLE);
         }
 
-        if (userRestBuilder.userExists(task.getUserId())) {
+//        if (userRestBuilder.userExists(task.getUserId())) {
+//            return ResponseEntity.ok(taskService.add(task));
+//        }
+        if (!task.getUserId().isBlank()) {
             return ResponseEntity.ok(taskService.add(task));
         }
         return new ResponseEntity("user with id: " + task.getUserId() + " not found", HttpStatus.NOT_ACCEPTABLE);
