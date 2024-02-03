@@ -98,6 +98,7 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/planner-todo" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/8.5/libexec" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/planner-todo" />
@@ -106,6 +107,7 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/planner-users" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/8.5/libexec" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/planner-users" />
@@ -114,6 +116,7 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$/planner-utils" />
+        <option name="gradleHome" value="/usr/local/Cellar/gradle/8.5/libexec" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$/planner-utils" />
