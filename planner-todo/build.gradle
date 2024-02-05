@@ -45,7 +45,7 @@ dependencies {
 	//check remote service status
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-hystrix:+'
 	//rabbit mq
-//	implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
+	implementation 'org.springframework.cloud:spring-cloud-starter-stream-rabbit'
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 }

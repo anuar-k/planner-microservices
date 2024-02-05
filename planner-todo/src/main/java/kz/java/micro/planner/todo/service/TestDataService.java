@@ -18,10 +18,10 @@ public class TestDataService {
     private final PriorityService priorityService;
     private final CategoryService categoryService;
 
-    @KafkaListener(topics = "test-topic")
-    public void listenKafka(String userId){
-        initTestData(userId);
-    }
+//    @KafkaListener(topics = "test-topic")
+//    public void listenKafka(String userId){
+//        initTestData(userId);
+//    }
 
     public void initTestData(String userId) {
         Priority priority1 = Priority.builder()

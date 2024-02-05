@@ -2,6 +2,9 @@ package kz.java.micro.planner.users.security;
 
 
 import kz.java.micro.planner.utils.converter.KCRoleConverter;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -13,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration // данный класс будет считан как конфиг для spring контейнера
 @EnableWebSecurity // включает механизм защиты адресов, которые настраиваются в SecurityFilterChain
 @EnableGlobalMethodSecurity(prePostEnabled = true) // включение механизма для защиты методов по ролям
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class})
 public class SpringSecurityConfig {
 
     // создается спец. бин, который отвечает за настройки запросов по http (метод вызывается автоматически) Spring контейнером
@@ -27,7 +31,9 @@ public class SpringSecurityConfig {
 
         // все сетевые настройки
         http.authorizeRequests()
-                .antMatchers("/login").permitAll() // анонимный пользователь сможет выполнять запросы только по этим URI
+                .antMatchers("/admin/*").hasRole("admin") // CRUD для работы с пользователями
+                .antMatchers("/auth/*").hasRole("user") // действия самого пользователям (регистрация и пр.)
+
                 .anyRequest().authenticated() // остальной API будет доступен только аутентифицированным пользователям
 
                 .and() // добавляем новые настройки, не связанные с предыдущими
