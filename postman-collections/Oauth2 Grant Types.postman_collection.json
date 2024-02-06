@@ -1,0 +1,360 @@
+{
+	"info": {
+		"_postman_id": "e911cb1b-b9a7-411c-b6a1-9c7d300fdb49",
+		"name": "Oauth2 Grant Types",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14845065"
+	},
+	"item": [
+		{
+			"name": "Authorization code",
+			"item": [
+				{
+					"name": "get code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://localhost:8443/realms/todoapp-realm/protocol/openid-connect/auth?response_type=code&client_id=todoapp-client&state=12313adadad&redirect_uri=http://localhost:8761/&scope=openid profile",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"realms",
+								"todoapp-realm",
+								"protocol",
+								"openid-connect",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "client_id",
+									"value": "todoapp-client"
+								},
+								{
+									"key": "state",
+									"value": "12313adadad"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:8761/"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get access token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "todoapp-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "uVu7QyBElV99yoSPfMrfzR1nejHX2sye",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "cb09a72b-33c9-4973-a9f7-7497bcf1bd9f.d5edb9bb-f39b-4411-a4de-470d6042d149.bbeabbea-7598-40ae-ab9b-19d9e0f22dd7",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:8761/",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8443/realms/todoapp-realm/protocol/openid-connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"realms",
+								"todoapp-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PKCE",
+			"item": [
+				{
+					"name": "get auth code pkce",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/realms/todoapp-realm/protocol/openid-connect/auth?response_type=code&client_id=todoapp-client&state=6WNNghGK9i6Qgy&scope=openid profile&redirect_uri=http://localhost:8761/&code_callenge=3XRgDtT0HOKtjXn5hbXVvQUfK2oilUwXos_TXYuOTOs&code_callenge_method=S256",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"realms",
+								"todoapp-realm",
+								"protocol",
+								"openid-connect",
+								"auth"
+							],
+							"query": [
+								{
+									"key": "response_type",
+									"value": "code"
+								},
+								{
+									"key": "client_id",
+									"value": "todoapp-client"
+								},
+								{
+									"key": "state",
+									"value": "6WNNghGK9i6Qgy"
+								},
+								{
+									"key": "scope",
+									"value": "openid profile"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:8761/"
+								},
+								{
+									"key": "code_callenge",
+									"value": "3XRgDtT0HOKtjXn5hbXVvQUfK2oilUwXos_TXYuOTOs"
+								},
+								{
+									"key": "code_callenge_method",
+									"value": "S256"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get token pkce",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "todoapp-client",
+									"type": "text"
+								},
+								{
+									"key": "code",
+									"value": "6c090ba4-4de6-451f-8aaf-777eca95edfe.217fb38e-4618-4321-b46e-fc804bb9839a.bbeabbea-7598-40ae-ab9b-19d9e0f22dd7",
+									"type": "text"
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:8761/",
+									"type": "text"
+								},
+								{
+									"key": "code_verifier",
+									"value": "Rk9kggncoV1jQZo3XWBqBanE9SM6xItp1pjYUDsi_E0",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/realms/todoapp-realm/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"realms",
+								"todoapp-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "client credentials (M2M)",
+			"item": [
+				{
+					"name": "get-access-token-cc",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "user-manage-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "JDAN6Z2u71AvYZ4udAOBPV8OMpi0LtRs",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "profile openid",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://localhost:8443/realms/todoapp-realm/protocol/openid-connect/token",
+							"protocol": "https",
+							"host": [
+								"localhost"
+							],
+							"port": "8443",
+							"path": [
+								"realms",
+								"todoapp-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "authorization_code",
+									"disabled": true
+								},
+								{
+									"key": "client_id",
+									"value": "myapp-client",
+									"disabled": true
+								},
+								{
+									"key": "client_secret",
+									"value": "Hz8rkQeY76z9G22dVzlT9dL0YQdFkedN",
+									"disabled": true
+								},
+								{
+									"key": "code",
+									"value": "434fcf35-3504-4c22-8c53-4ffe6574569e.c47a188d-1cbf-4db6-be6e-4bf064214de6.bb435991-7774-4906-801a-ded84123d0b3",
+									"disabled": true
+								},
+								{
+									"key": "redirect_uri",
+									"value": "http://localhost:7003/",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "refresh token",
+			"item": [
+				{
+					"name": "get new access token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "refresh_token",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "todoapp-client",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "uVu7QyBElV99yoSPfMrfzR1nejHX2sye",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI4YzI1YjUyYy1lYTQxLTQxNTMtOTc1ZS01ODY2NDg1NzQxZmMifQ.eyJleHAiOjE3MDY3MDEyODgsImlhdCI6MTcwNjY5OTQ4OCwianRpIjoiZTYxZWM0ZGEtNTE3Yi00NDBiLWJmMTQtMjVkZTJkM2I5MjFiIiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgxL3JlYWxtcy90b2RvYXBwLXJlYWxtIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgxL3JlYWxtcy90b2RvYXBwLXJlYWxtIiwic3ViIjoiNjYwNjg5N2YtMGJlNi00NTYyLTgzYzEtMjE1MTlkODRiODhkIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6InRvZG9hcHAtY2xpZW50Iiwic2Vzc2lvbl9zdGF0ZSI6ImQyN2Y1YzFlLTBiMmQtNDNlMC04NzQ1LWY5MjI2NGVhZDllMSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJzaWQiOiJkMjdmNWMxZS0wYjJkLTQzZTAtODc0NS1mOTIyNjRlYWQ5ZTEifQ.4RyBUKH51xIT9iqPXiMBu29pQwedYrThP67nb8wKsmA",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8081/realms/todoapp-realm/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"realms",
+								"todoapp-realm",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
