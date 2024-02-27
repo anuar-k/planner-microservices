@@ -13,7 +13,8 @@ services:
       command: start-dev --https-certificate-file="/opt/keycloak/data/ssl/localhost.cer" --https-certificate-key-file="/opt/keycloak/data/ssl/localhost.pkcs8"
 #      command: start-dev
       volumes:
-        - ./keycloak:/opt/keycloak/data
+        - ./keycloak/data:/opt/keycloak/data
+        - ./keycloak/themes:/opt/keycloak/themes
 
    rabbitmq:
       container_name: rabbitmq
